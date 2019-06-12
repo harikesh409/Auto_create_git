@@ -9,17 +9,17 @@ if len(sys.argv) == 3:
 	token = sys.argv[2]
 elif len(sys.argv) == 2:
 	repo = sys.argv[1]
-	token = input("Enter PAC (Personal Access Token) ")
+	token = input("Enter PAT (Personal Access Token) ")
 else:
 	repo = input("Enter repository name ")
-	token = input("Enter PAC (Personal Access Token) ")
+	token = input("Enter PAT (Personal Access Token) ")
 
 endpoint = "https://api.github.com/user/repos?access_token="+token
 
 req_body = {
   "name": repo,
   "description": "Repo creted using script",
-  "private":"true"
+  "private":"false"
 }
 
 r = requests.post(url = endpoint ,json = req_body)
@@ -44,7 +44,7 @@ if 'documentation_url' in data:
 	else:
 		print(data['message'])
 else:
-	# Creating the origin url with PAC token
+	# Creating the origin url with PAT
 	origin = "https://"+data['owner']['login']+":"+token+"@github.com/"+data['full_name']+".git"
 
 	# Creating an .gitignore file to ignore these script files
@@ -57,9 +57,10 @@ else:
 	f.write("create.py\n")
 	f.close()
 
-	# Checking if the folder is initialized or not
+	# Checking if the folder is initialized with git or not
 	if not os.path.exists(".git"):
 		subprocess.call("git init")
+	# Git commands to commit and push all files
 	subprocess.call("git add .")
 	subprocess.call('git commit -m "Initial commit"')
 	cmd = "git remote add origin "+origin
