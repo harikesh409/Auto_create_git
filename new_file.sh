@@ -24,5 +24,5 @@ echo "Intial commit" >> README.md
 git init
 git add README.md
 git commit -m "Initial commit"
-git remote $remote
+git remote add origin $remote
 git push -u origin master

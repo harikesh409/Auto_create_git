@@ -39,12 +39,8 @@ subprocess.call("git init")
 
 endpoint = "https://api.github.com/user/repos?access_token="+PAT
 
-req_body = {
-  "name": repo,
-  "description": "Repo creted using script",
-  "private":"false",
-  "auto_init":"true"
-}
+req_body = '{"name":"'+repo+'","description": "Repo created using script.","private":true, "auto_init":true}'
+req_body = json.loads(req_body)
 
 r = requests.post(url = endpoint ,json = req_body)
 r.json()

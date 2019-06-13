@@ -1,7 +1,7 @@
 @echo off 
 
 if [%1]==[] (set /p repo="Enter repository name: ") else (set repo=%1)
-if [%2]==[] (set /p username="Enter username name: ") else (set username=%2)
+if [%2]==[] (set /p username="Enter github username: ") else (set username=%2)
 if [%3]==[] (set /p pat="Enter PAT (Personal Access Token): ") else (set pat=%3)
 
 set endpoint="https://api.github.com/user/repos?access_token=%pat%"
