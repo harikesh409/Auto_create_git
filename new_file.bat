@@ -1,27 +1,20 @@
-@echo offf
+@echo off 
 
-rem Automating the whole project creation phase.
+rem Batch script for automating the whole process of project creation.
+rem This script creates a local directory and repository in github with provided name, using github API.
 
-rem The script is the intializing file.
-rem Goes to location (i.e is Documents/Projects, in my case) and creates a folder for project a initializes it in git.)
+if [%1]==[] (set /p repo="Enter repository name: ") else (set repo=%1)
+if [%2]==[] (set /p username="Enter username name: ") else (set username=%2)
+if [%3]==[] (set /p path="Enter local path to save the repository: ") else (set path=%3)
+if [%4]==[] (set /p pac="Enter PAC (Personal Access Token): ") else (set pac=%4)
 
-set project_name = %1
-set remote = %2
+set endpoint="https://api.github.com/user/repos?access_token=%pac%"
 
-rem Intializing/creating the project file locally.
+curl -i -d "{\"name\": \"%repo%\", \"private\": false, \"auto_init\": true}" %endpoint%
 
-cd Documents/Projects
-
-mkdir %project_name%
-cd %project_name%
-
-rem Project created locally.
-
-rem Intializing the project in github.
-
-echo "Intial commit" >> README.md
+cd %path%
+mkdir %repo%
 git init
-git add README.md
-git commit -m "Initial commit"
-git remote %remote%
-git push -u origin master
+git remote add origin "https://%username%:%pac%@github.com/%username%/%repo%.git"
+git pull origin master
+pause
